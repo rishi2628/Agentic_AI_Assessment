@@ -1,0 +1,132 @@
+ACME CORPORATION — IT SECURITY POLICY
+Document:  Acceptable Use Policy (AUP)
+Version:   4.2
+Effective: January 1, 2025
+Owner:     IT Security / Legal
+Review:    Annually (next review: January 2026)
+Classification: Internal
+
+────────────────────────────────────────────────────────────────────
+1. PURPOSE
+────────────────────────────────────────────────────────────────────
+This policy defines acceptable use of ACME's information technology
+resources to protect company data, maintain system integrity, and
+ensure compliance with legal and regulatory requirements.
+
+────────────────────────────────────────────────────────────────────
+2. SCOPE
+────────────────────────────────────────────────────────────────────
+Applies to all employees, contractors, interns, and third parties
+using ACME-owned, ACME-managed, or ACME-leased IT resources including
+computers, mobile devices, network infrastructure, software, email,
+and cloud services.
+
+────────────────────────────────────────────────────────────────────
+3. PERMITTED USE
+────────────────────────────────────────────────────────────────────
+3.1 Primary purpose
+   ACME IT resources are provided for legitimate business purposes.
+   Use must be consistent with job responsibilities.
+
+3.2 Incidental personal use
+   Limited personal use of ACME resources is permitted provided it:
+   • Does not interfere with work duties or system performance.
+   • Does not violate any provision of this policy.
+   • Is not for commercial gain or operating a personal business.
+   • Does not involve streaming media services, online gaming, or
+     large file downloads during business hours.
+
+────────────────────────────────────────────────────────────────────
+4. PROHIBITED ACTIVITIES
+────────────────────────────────────────────────────────────────────
+The following are strictly prohibited on ACME IT resources:
+
+4.1 Security violations
+   • Attempting to gain unauthorised access to any system or network.
+   • Installing, running, or distributing malicious software.
+   • Circumventing, disabling, or tampering with any security control
+     (firewalls, AV, DLP, MFA) — see MFA Policy §7 for exception process.
+   • Intercepting network traffic or performing port scans without
+     written IT Security authorisation.
+   • Using ACME systems to conduct denial-of-service attacks.
+
+4.2 Data & IP violations
+   • Sharing, copying, or transmitting proprietary data without
+     authorisation (see Data Classification Policy v2.1).
+   • Downloading or distributing pirated software, music, video, or
+     other copyrighted material.
+   • Using ACME systems to misappropriate intellectual property.
+
+4.3 Identity & credential violations
+   • Sharing login credentials with any person.
+   • Accessing another employee's accounts or files without explicit
+     written authorisation from IT Security and the account owner.
+   • Impersonating another user or creating fake identities.
+
+4.4 Content violations
+   • Accessing, storing, or transmitting content that is illegal,
+     obscene, discriminatory, harassing, or threatening.
+   • Participating in activities that constitute fraud or deceit.
+
+4.5 External sharing violations
+   • Sending Confidential or Restricted data outside ACME via personal
+     email, consumer cloud storage (Dropbox, personal Google Drive), or
+     USB drives without DLP approval.
+   • Approved external collaboration tools: SharePoint, OneDrive,
+     ACME-managed Box account.
+
+────────────────────────────────────────────────────────────────────
+5. MONITORING & PRIVACY
+────────────────────────────────────────────────────────────────────
+   • ACME reserves the right to monitor all activity on company-owned
+     devices and networks.
+   • Employees have NO expectation of privacy on company IT resources.
+   • Monitoring includes: email, web browsing, file access, application
+     usage, and network traffic (DLP).
+   • Monitoring is conducted in accordance with applicable laws and
+     is disclosed to employees upon hiring and annually thereafter.
+
+────────────────────────────────────────────────────────────────────
+6. BRING YOUR OWN DEVICE (BYOD)
+────────────────────────────────────────────────────────────────────
+   • Personal devices accessing ACME email or systems must be enrolled
+     in Intune MDM (enroll via https://portal.company.com/mdm).
+   • MDM enrollment installs Intune Company Portal; personal data is
+     NOT accessed or deleted during device management.
+   • If a BYOD device is lost/stolen, report immediately to IT so
+     corporate data can be remotely wiped (corporate partition only).
+
+────────────────────────────────────────────────────────────────────
+7. SOCIAL MEDIA
+────────────────────────────────────────────────────────────────────
+   • Employees must not disclose confidential company information on
+     social media platforms.
+   • ACME's Social Media Policy (separate document) governs public
+     commentary about the company.
+
+────────────────────────────────────────────────────────────────────
+8. REPORTING VIOLATIONS
+────────────────────────────────────────────────────────────────────
+   • Report suspected violations to: compliance@company.com or
+     the IT Security team (soc@company.com).
+   • Anonymous reporting: https://ethics.company.com/report
+   • Retaliation against reporters is strictly prohibited.
+
+────────────────────────────────────────────────────────────────────
+9. ENFORCEMENT & CONSEQUENCES
+────────────────────────────────────────────────────────────────────
+Violations may result in:
+   • Formal warning
+   • Suspension of IT access privileges
+   • Disciplinary action, up to and including termination
+   • Legal action where applicable
+
+────────────────────────────────────────────────────────────────────
+10. RELATED DOCUMENTS
+────────────────────────────────────────────────────────────────────
+   • Data Classification Policy v2.1
+   • MFA Policy v3.1
+   • Password Reset & Management Policy v2.3
+   • Incident Response Procedure v2.0
+   • Social Media Policy
+   • Code of Conduct

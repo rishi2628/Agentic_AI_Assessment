@@ -1,0 +1,146 @@
+ACME CORPORATION — IT SECURITY POLICY
+Document:  Data Classification & Handling Policy
+Version:   2.1
+Effective: September 1, 2024
+Owner:     IT Security / Compliance
+Review:    Annually (next review: September 2025)
+Classification: Internal
+
+────────────────────────────────────────────────────────────────────
+1. PURPOSE
+────────────────────────────────────────────────────────────────────
+Define a consistent framework for classifying, labelling, and handling
+ACME data to ensure appropriate protection proportional to sensitivity
+and business risk.
+
+────────────────────────────────────────────────────────────────────
+2. SCOPE
+────────────────────────────────────────────────────────────────────
+All ACME data regardless of format (digital, physical, verbal) and all
+persons who create, access, process, or dispose of that data.
+
+────────────────────────────────────────────────────────────────────
+3. DATA CLASSIFICATION LEVELS
+────────────────────────────────────────────────────────────────────
+
+3.1 PUBLIC
+   Definition: Information approved for release to the general public.
+   Examples:   Press releases, public product documentation, job postings,
+               marketing materials.
+   Handling:   No special controls required. May be shared freely.
+
+3.2 INTERNAL
+   Definition: General business information not intended for external
+               audiences but not highly sensitive.
+   Examples:   Internal memos, project plans, IT procedures, org charts,
+               incident response logs (redacted).
+   Handling:
+     • Store on company-approved systems (SharePoint, OneDrive).
+     • Do not post publicly or email to personal accounts.
+     • Dispose via standard recycle bin / file deletion.
+
+3.3 CONFIDENTIAL
+   Definition: Sensitive business information that could harm ACME or
+               individuals if disclosed.
+   Examples:   Personally Identifiable Information (PII) — names, email
+               addresses, phone numbers, employee IDs, date of birth,
+               national ID / SSN (last 4 acceptable in verbal verification
+               only — never in writing or logs).
+               Customer data, contracts, financial forecasts, HR records,
+               security vulnerability details, authentication credentials.
+   Handling:
+     • Encrypt at rest (AES-256) and in transit (TLS 1.2+).
+     • Access on need-to-know basis with manager approval.
+     • Do not include in email bodies — use secure links (SharePoint).
+     • Redact PII before sharing incident logs externally.
+     • Physical copies: shred when no longer needed.
+     • Dispose via secure-delete tools (not regular trash).
+
+3.4 RESTRICTED
+   Definition: Highly sensitive information with significant legal,
+               regulatory, or financial consequences if disclosed.
+   Examples:   M&A deal details, trade secrets, source code (core IP),
+               financial statements (pre-release), security keys/certificates,
+               SOC 2 audit reports (pending), CISO-only security assessments.
+   Handling:
+     • Access requires written CISO or VP-level approval.
+     • Multi-factor authentication mandatory for all systems holding data.
+     • Encryption at rest (AES-256) + hardware security modules (HSMs)
+       for key material.
+     • Audit log of every access event retained for 2 years.
+     • Do not discuss on unencrypted communication channels.
+     • Physical copies stored in locked cabinets; access log maintained.
+
+────────────────────────────────────────────────────────────────────
+4. CLASSIFICATION OF SPECIFIC DATA TYPES
+────────────────────────────────────────────────────────────────────
+┌────────────────────────────────────┬───────────────┐
+│ Data Type                          │ Classification │
+├────────────────────────────────────┼───────────────┤
+│ Full name + email (combined)       │ Confidential  │
+│ Employee ID (standalone)           │ Internal      │
+│ SSN / National ID (any portion)    │ Restricted    │
+│ Home address                       │ Confidential  │
+│ IP address (internal server)       │ Internal      │
+│ IP address (user/customer)         │ Confidential  │
+│ Raw incident logs (unredacted)     │ Internal      │
+│ Auth logs with usernames           │ Confidential  │
+│ Salaries / compensation            │ Restricted    │
+│ Product roadmap                    │ Restricted    │
+│ IT policies (approved versions)    │ Internal      │
+│ Security audit findings            │ Restricted    │
+│ Customer PII                       │ Confidential  │
+│ API keys / secrets                 │ Restricted    │
+│ Public website content             │ Public        │
+└────────────────────────────────────┴───────────────┘
+
+────────────────────────────────────────────────────────────────────
+5. PII HANDLING RULES
+────────────────────────────────────────────────────────────────────
+5.1 Collection
+   • Collect only data necessary for the business purpose (data minimisation).
+   • Obtain consent where required by GDPR / CCPA.
+
+5.2 Storage
+   • Do not store PII in plain-text log files.
+   • Pseudonymise or anonymise where feasible.
+   • Retention: 3 years post-employment for HR records, per legal guidance.
+
+5.3 Transmission
+   • Encrypt all PII in transit (TLS 1.2+).
+   • Never transmit SSN, full credit card numbers, or passwords via email.
+
+5.4 Disposal
+   • Digital: NIST 800-88-compliant secure erasure or cryptographic erase.
+   • Physical: Cross-cut shredding.
+
+────────────────────────────────────────────────────────────────────
+6. REGULATORY COMPLIANCE
+────────────────────────────────────────────────────────────────────
+   • GDPR (EU/UK): Article 5 — data minimisation; Article 32 — security.
+   • CCPA (California): Right to know, delete, and opt-out.
+   • SOC 2 Type II: CC6 series controls for logical access.
+   • HIPAA: Not currently in scope; if healthcare data is processed,
+     notify Compliance immediately.
+
+────────────────────────────────────────────────────────────────────
+7. LABELLING
+────────────────────────────────────────────────────────────────────
+   • Documents must include classification in the header/footer.
+   • Emails: prepend subject with [CONFIDENTIAL] or [RESTRICTED] as applicable.
+   • Automated DLP labels applied by Microsoft Purview (MIP).
+
+────────────────────────────────────────────────────────────────────
+8. VIOLATIONS
+────────────────────────────────────────────────────────────────────
+   Mishandling of Confidential or Restricted data must be reported to
+   the DLP team (dlp@company.com) within 24 hours of discovery.
+   Data breaches follow escalation in Incident Response Procedure v2.0.
+
+────────────────────────────────────────────────────────────────────
+9. RELATED DOCUMENTS
+────────────────────────────────────────────────────────────────────
+   • Acceptable Use Policy v4.2
+   • Incident Response Procedure v2.0
+   • MFA Policy v3.1
+   • Password Reset & Management Policy v2.3

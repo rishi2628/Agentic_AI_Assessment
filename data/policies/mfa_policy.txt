@@ -1,0 +1,122 @@
+ACME CORPORATION — IT SECURITY POLICY
+Document:  Multi-Factor Authentication (MFA) Policy
+Version:   3.1
+Effective: February 1, 2025
+Owner:     IT Security / IAM Team
+Review:    Annually (next review: February 2026)
+Classification: Internal
+
+────────────────────────────────────────────────────────────────────
+1. PURPOSE
+────────────────────────────────────────────────────────────────────
+This policy mandates the use of Multi-Factor Authentication (MFA) for
+all applicable ACME systems to significantly reduce the risk of
+unauthorised access from compromised credentials.
+
+────────────────────────────────────────────────────────────────────
+2. SCOPE
+────────────────────────────────────────────────────────────────────
+All employees, contractors, and third-party vendors accessing ACME
+systems where MFA-enforcement has been enabled.
+
+────────────────────────────────────────────────────────────────────
+3. SYSTEMS REQUIRING MFA
+────────────────────────────────────────────────────────────────────
+MFA is MANDATORY for the following; no exceptions unless §7 applies:
+   • VPN (Cisco AnyConnect → Duo Security)
+   • Microsoft 365 / Azure AD (all apps)
+   • AWS Management Console and CLI (IAM roles with Console access)
+   • Privileged Access Workstations (PAW) and jump servers
+   • Remote Desktop Gateway (rdg.company.com)
+   • GitHub Enterprise (SAML SSO with Azure AD)
+   • ServiceNow admin roles
+   • Any system classified Confidential or Restricted (per Data
+     Classification Policy v2.1)
+
+────────────────────────────────────────────────────────────────────
+4. APPROVED MFA METHODS (in descending security preference)
+────────────────────────────────────────────────────────────────────
+Tier 1 — Phishing-resistant (strongly recommended)
+   • FIDO2 / WebAuthn hardware security key (YubiKey 5, Google Titan)
+   • Windows Hello for Business (biometric / PIN + TPM)
+
+Tier 2 — Authenticator app
+   • Microsoft Authenticator (number matching + additional context ON)
+   • Google Authenticator (TOTP)
+   • Duo Mobile (push notifications or TOTP)
+
+Tier 3 — SMS / Voice one-time passcode (DEPRECATED)
+   • SMS OTP: still accepted but being phased out (see §5).
+   • Voice call OTP: same phase-out schedule as SMS.
+   ⚠ SMS is vulnerable to SIM-swap attacks; migrate to Tier 1 or 2.
+
+Rejected / Not permitted
+   • Email-based OTP codes for high-risk systems.
+   • Security questions as a second factor.
+
+────────────────────────────────────────────────────────────────────
+5. SMS / VOICE PHASE-OUT SCHEDULE
+────────────────────────────────────────────────────────────────────
+   • June 30, 2025:  SMS/voice MFA disabled for privileged accounts.
+   • December 31, 2025: SMS/voice MFA disabled for all remaining accounts.
+   • Users still on SMS will receive automated migration prompts from
+     90 days before each deadline.
+   • Migration guide: https://mfa.company.com/migrate
+
+────────────────────────────────────────────────────────────────────
+6. SELF-SERVICE MFA ENROLLMENT & RECOVERY
+────────────────────────────────────────────────────────────────────
+6.1 Initial enrollment
+   1. Visit https://mfa.company.com/enroll (requires network or VPN).
+   2. Sign in with AD credentials.
+   3. Follow the wizard to register preferred MFA method.
+   4. Register at least TWO methods for recovery redundancy.
+
+6.2 Replacing a lost / damaged device
+   1. Contact Help Desk (ext 4357).
+   2. Identity verified via alternate MFA or manager confirmation.
+   3. Old device de-registered; recovery codes issued temporarily (48-hr TTL).
+   4. User re-enrolls new device via https://mfa.company.com/enroll.
+
+6.3 Recovery codes
+   • One-time-use backup codes available at https://mfa.company.com/codes.
+   • Download and store securely (password manager, NOT email).
+   • Regenerated automatically after use; old set invalidated.
+
+────────────────────────────────────────────────────────────────────
+7. EXCEPTIONS / WAIVERS — CRITICAL RESTRICTION
+────────────────────────────────────────────────────────────────────
+⛔ MFA CANNOT be disabled for any individual user or system without
+   formal, documented approval. There are NO informal exceptions.
+
+Exception process:
+   Step 1 — Requester submits "MFA Exception Request" in ServiceNow.
+             Must include: business justification, affected systems,
+             proposed compensating controls, risk acceptance sign-off.
+   Step 2 — IT Security team reviews within 5 business days.
+   Step 3 — CISO provides written sign-off (email to itsecurity@company.com).
+   Step 4 — Exception granted for maximum 30 calendar days.
+             Renewable only once with repeat CISO approval.
+   Step 5 — Exception logged in the Risk Register; audited quarterly.
+
+Any request to "disable MFA", "turn off MFA", or "bypass MFA" for a
+user outside of this process is a POLICY VIOLATION and must be
+reported to the SOC immediately (soc@company.com).
+
+────────────────────────────────────────────────────────────────────
+8. ENFORCEMENT & MONITORING
+────────────────────────────────────────────────────────────────────
+   • Non-compliant accounts receive a 7-day grace period, then access
+     blocked until MFA is enrolled.
+   • Conditional Access policies (Azure AD) automatically enforce MFA.
+   • MFA bypass attempts trigger a SOC alert within 5 minutes.
+   • Quarterly compliance reports sent to Department Heads.
+
+────────────────────────────────────────────────────────────────────
+9. RELATED DOCUMENTS
+────────────────────────────────────────────────────────────────────
+   • Password Reset & Management Policy v2.3
+   • VPN Access Policy v1.8
+   • Incident Response Procedure v2.0
+   • Acceptable Use Policy v4.2
+   • Data Classification Policy v2.1

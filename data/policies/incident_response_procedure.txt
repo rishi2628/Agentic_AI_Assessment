@@ -1,0 +1,190 @@
+ACME CORPORATION — IT OPERATIONS
+Document:  IT Incident Response Procedure
+Version:   2.0
+Effective: November 1, 2024
+Owner:     IT Operations / Site Reliability Engineering (SRE)
+Review:    Semi-annually (next review: May 2025)
+Classification: Internal
+
+────────────────────────────────────────────────────────────────────
+1. PURPOSE
+────────────────────────────────────────────────────────────────────
+Provide a repeatable, efficient framework for detecting, triaging,
+containing, and resolving IT incidents at ACME, minimising business
+impact and ensuring accurate post-incident reporting.
+
+────────────────────────────────────────────────────────────────────
+2. SCOPE
+────────────────────────────────────────────────────────────────────
+All IT incidents affecting ACME employees, services, or data —
+including infrastructure failures, application outages, security
+events, and significant degradation of service.
+
+────────────────────────────────────────────────────────────────────
+3. INCIDENT SEVERITY LEVELS
+────────────────────────────────────────────────────────────────────
+┌──────┬──────────────┬────────────────────────────────────────────┐
+│ Sev  │  Label       │  Criteria                                  │
+├──────┼──────────────┼────────────────────────────────────────────┤
+│  P1  │  Critical    │  >50 users impacted OR production system   │
+│      │              │  fully down OR data breach suspected       │
+│  P2  │  High        │  10–50 users impacted OR major feature     │
+│      │              │  unavailable with no workaround            │
+│  P3  │  Medium      │  1–10 users impacted OR degraded perf with │
+│      │              │  available workaround                      │
+│  P4  │  Low         │  Single user, cosmetic, or informational   │
+└──────┴──────────────┴────────────────────────────────────────────┘
+
+────────────────────────────────────────────────────────────────────
+4. RESPONSE TIMELINES & ESCALATION
+────────────────────────────────────────────────────────────────────
+P1 — Critical
+   • Acknowledge:      ≤ 15 minutes
+   • PagerDuty alert:  Fires automatically via monitoring (Datadog)
+   • Incident Commander (IC) assigned: on-call SRE lead
+   • War room opened:  Zoom link auto-created (check PagerDuty alert)
+   • Stakeholder updates: every 30 minutes until resolved
+   • Escalation chain: SRE Lead → VP Engineering → CTO (if >2 hrs unresolved)
+   • Post-incident RCA: due within 5 business days
+
+P2 — High
+   • Acknowledge:      ≤ 30 minutes
+   • Assign:           On-call engineer
+   • Stakeholder updates: every 2 hours
+   • Escalation: on-call engineer → SRE Lead (if >4 hrs unresolved)
+   • Post-incident RCA: due within 10 business days
+
+P3 — Medium
+   • Acknowledge:      ≤ 2 hours (business hours)
+   • Assign via ServiceNow queue rotation
+   • Updates: at 25 % and 75 % resolution
+
+P4 — Low
+   • Acknowledge:      ≤ 1 business day
+   • Handled via standard ServiceNow ticket workflow
+
+────────────────────────────────────────────────────────────────────
+5. FIRST-PASS TRIAGE CHECKLIST
+────────────────────────────────────────────────────────────────────
+Complete ALL steps before declaring severity or escalating:
+
+  [ ] 1. IDENTIFY BLAST RADIUS
+          • How many users affected? (check #incidents Slack or ServiceNow)
+          • Which systems / services? (check Datadog service map)
+          • Onset time? (check monitoring alerts timeline)
+
+  [ ] 2. GATHER EVIDENCE
+          • Application logs (see §7 for paths)
+          • Network / firewall logs
+          • Authentication logs (Azure AD Sign-in logs or on-prem AD)
+          • Screenshot of error messages from affected users
+
+  [ ] 3. CHECK KNOWN ISSUES
+          • Datadog monitors dashboard: https://app.datadoghq.com
+          • PagerDuty Current Incidents: https://acme.pagerduty.com
+          • Status page (external): https://status.company.com
+          • Vendor status pages (Duo, AWS, Cloudflare)
+
+  [ ] 4. APPLY KNOWN WORKAROUND (if available)
+          • Document workaround in ServiceNow ticket immediately.
+
+  [ ] 5. CREATE SERVICENOW TICKET
+          Format: [Pn][SYSTEM] Brief description
+          Body must include:
+            - Affected users: <count>
+            - Onset timestamp (UTC): <timestamp>
+            - Error message / log snippet: <text>
+            - Workaround (if any): <text>
+            - Triage steps taken: <list>
+
+  [ ] 6. NOTIFY STAKEHOLDERS
+          P1/P2: Post in #incidents Slack with ticket link and Zoom war-room URL
+
+────────────────────────────────────────────────────────────────────
+6. VPN INCIDENT RUNBOOK
+────────────────────────────────────────────────────────────────────
+Symptoms: Users unable to connect, authentication failures, dropped
+sessions, certificate errors.
+
+Step 1 — Assess blast radius
+   Check #incidents and ServiceNow for incoming reports.
+   ≥10 users = P2; ≥50 users = P1 → PAGE NetOps immediately.
+
+Step 2 — Verify VPN gateway health
+   # Cisco ASA/FTD: active sessions
+   show vpn-sessiondb anyconnect
+   # Expected: sessions number, not "0" or error
+
+   # Check firewall CPU/memory
+   show processes cpu-usage | head 20
+
+Step 3 — Verify certificate validity
+   # Check certificate expiry
+   show crypto ca certificates
+   # If expired → renew via cert-renewal.company.com, then reload ASA
+
+Step 4 — Check Duo MFA service
+   • Open Duo Admin (duo.company.com) → check for service degradation.
+   • If Duo down → apply Duo bypass (requires CISO approval, see §8).
+
+Step 5 — Verify AD authentication
+   # From a domain-joined machine
+   Test-NetConnection -ComputerName dc01.company.local -Port 636
+   # 636 = LDAPS; if fails, escalate to AD/IAM team
+
+Step 6 — Check DNS / routing
+   nslookup vpn.company.com 8.8.8.8
+   # Should resolve to 192.168.100.1 (internal NAT'd address)
+
+Step 7 — Direct users to backup endpoint
+   vpn-backup.company.com (secondary ASA cluster)
+
+Step 8 — Escalate to NetOps
+   PagerDuty: @netops-oncall
+   Email: netops@company.com
+   Phone bridge: +1-800-555-6387
+
+────────────────────────────────────────────────────────────────────
+7. LOG FILE PATHS
+────────────────────────────────────────────────────────────────────
+   Application (Linux):          /var/log/<app-name>/app.log
+   Nginx access / error:         /var/log/nginx/access.log
+   Cisco AnyConnect (Windows):   %APPDATA%\Cisco\Cisco AnyConnect\
+   Cisco AnyConnect (macOS):     ~/Library/Logs/Cisco AnyConnect/
+   Azure AD Sign-in logs:        Azure Portal → Azure AD → Sign-in logs
+   AWS CloudTrail:               S3 bucket s3://acme-cloudtrail-logs/
+
+────────────────────────────────────────────────────────────────────
+8. SECURITY INCIDENTS — ADDITIONAL STEPS
+────────────────────────────────────────────────────────────────────
+If the incident involves suspected data breach, malware, or insider
+threat:
+   • Notify SOC immediately: soc@company.com / ext 9999
+   • Do NOT attempt remediation alone — preserve forensic evidence.
+   • Invoke the Security Incident Response Plan (SIRP) — separate doc.
+   • CISO notified within 1 hour for any data breach scenario.
+
+────────────────────────────────────────────────────────────────────
+9. POST-INCIDENT REVIEW
+────────────────────────────────────────────────────────────────────
+   • P1/P2 require a written Root Cause Analysis (RCA) document.
+   • RCA template: https://wiki.company.com/rca-template
+   • RCA review meeting: within 5 business days (P1) or 10 days (P2).
+   • Action items tracked in Jira under project "INCIDENT-ACTIONS".
+
+────────────────────────────────────────────────────────────────────
+10. CONTACTS
+────────────────────────────────────────────────────────────────────
+   • Help Desk:            helpdesk@company.com  |  ext 4357
+   • Network Operations:   netops@company.com    |  PagerDuty @netops-oncall
+   • Security Operations:  soc@company.com       |  ext 9999
+   • SRE On-Call:          PagerDuty @sre-oncall
+   • CISO:                 ciso@company.com      |  ext 1001
+
+────────────────────────────────────────────────────────────────────
+11. RELATED DOCUMENTS
+────────────────────────────────────────────────────────────────────
+   • VPN Access Policy v1.8
+   • MFA Policy v3.1
+   • Security Incident Response Plan (SIRP) — Restricted
+   • Password Reset & Management Policy v2.3

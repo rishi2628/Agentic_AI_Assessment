@@ -1,0 +1,22 @@
+# ─── LLM / Agents ─────────────────────────────────────────────────────────────
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-ollama>=0.2.1        # ChatOllama integration (primary, free, local)
+langgraph>=0.2.50              # Multi-agent stateful workflows
+
+# Optional: Groq free-tier cloud LLM (comment in to use instead of Ollama)
+# langchain-groq>=0.2.0
+
+# ─── Vector Store & Embeddings ────────────────────────────────────────────────
+chromadb>=0.5.20               # Local persistent vector store
+sentence-transformers>=3.3.0   # Free local embeddings (all-MiniLM-L6-v2)
+
+# ─── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.1
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+rich>=13.9.0                   # Pretty CLI output
+
+# ─── Testing ──────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
